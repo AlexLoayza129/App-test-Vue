@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <title>App test | CRUD</title>
+</head>
+<body>
+    <!-- App -->
+    <div id="app" class="container is-flex is-flex-direction-column"
+    style="min-height: 600px !important;position: relative;">
+        <h3 class="mt-5">App Test</h3>
+        <input type="text" class="input my-4" v-model="newProduct" placeholder="Nombre del producto" v-on:keyup.enter="addProduct">
+        <input type="text" class="input" v-model="newDesc" placeholder="Descripcion del producto" v-on:keyup.enter="addProduct">
+        <input type="text" class="input my-4" v-model="newColor" placeholder="Inserte el color del auto" v-on:keyup.enter="addProduct">
+        <button class="button is-primary mx-auto mt-4" @click="addProduct">Add Product</button>
+
+        <!-- Products -->
+        <div class="my-6 is-flex is-flex-direction-column is-align-items-center" v-for="(product, index) in productos" :key="index">
+            <div class="card" style="background-color: white; opacity: 80%;color:black;max-width: 300px;overflow: hidden;">
+                <div class="card-image">
+                    <img :src="product.image">
+                </div>
+                <div class="card-content mx-2">
+                    <h2 class="mb-4 has-text-black" style="font-size: 30px;line-height: 20px;">{{product.name}}</h2>
+                    <p>{{product.description}}</p>
+                </div>
+                <div class="is-flex is-justify-content-center my-2">
+                    <button class="button is-info mx-2" @click="infoProduct(index)">Mas Información</button>
+                    <button class="button is-danger" @click="deleteProduct(index)">Eliminar</button>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div v-if="modal && modal_id === index"
+                style="z-index: 10; background-color: white;min-height: 300px;width: 400px;position: absolute;border-radius: 10px;box-shadow: 0 0 5px 5px rgba(0,0,0,0.3);top:30%;transition: 0.5s;"
+                :style="modal ? 'left: 35%;' : ''"
+                >
+                <h2 class="mx-4 is-size-2 is-centered" style="color:#00d1b2">{{product.name}}</h2>
+                <p class="mx-4 is-size-4">{{product.description}}</p>
+                <hr>
+                <h3 class="mt-5 px-4 is-size-3" style="color:rgb(37, 209, 60)">Modificar Datos</h3>
+                <input type="text" placeholder="Nuevo nombre del producto" class="input mx-4 my-2" style="width: 250px;" v-model="upProduct">
+                <input type="text" placeholder="Nueva descripción" class="input mx-4 my-2" style="width: 250px;" v-model="upDesc">
+                <input type="text" placeholder="Nuevo color" class="input mx-4 my-2" style="width: 250px;" v-model="upColor">
+                <div class="mx-4" style="display:flex;justify-content: end ;margin-top: 2rem;;margin-bottom: 10px;">
+                    <button class="button is-warning mx-4" style="color:white;" @click="updateProduct(index)">Guardar </button>
+                    <button class="button is-success" @click="modal = false">Cerrar</button>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="/assets/js/app.js"></script>
+</body>
+</html>
